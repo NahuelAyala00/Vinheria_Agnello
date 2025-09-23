@@ -1,0 +1,929 @@
+/* ===== RESET E CONFIGURAÇÕES BÁSICAS ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Garante que html e body ocupem toda a tela */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Body como flex container vertical */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ===== HEADER PERSONALIZADO ===== */
+.header-custom {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+/* Logo Section */
+.logo-section {
+    display: flex;
+    align-items: center;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.logo-link:hover {
+    color: #6c757d;
+    text-decoration: none;
+}
+
+.logo-icon {
+    font-size: 1.5rem;
+    color: #dc3545;
+    margin-right: 0.5rem;
+}
+
+.logo-text {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Navigation Menu Desktop */
+.nav-menu {
+    display: flex;
+    align-items: center;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 2rem;
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-link {
+    color: #6c757d;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.5rem 0;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: #333;
+    text-decoration: none;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #dc3545;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Active link state */
+.nav-link.active {
+    color: #333;
+}
+
+.nav-link.active::after {
+    width: 100%;
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.3s ease;
+}
+
+.hamburger-line {
+    width: 100%;
+    height: 2px;
+    background-color: #333;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Mobile Menu */
+.mobile-menu {
+    display: none;
+    background-color: #fff;
+    border-top: 1px solid #dee2e6;
+    padding: 1rem 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.mobile-nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mobile-nav-item {
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.mobile-nav-item:last-child {
+    border-bottom: none;
+}
+
+.mobile-nav-link {
+    display: block;
+    color: #6c757d;
+    text-decoration: none;
+    padding: 0.75rem 0;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.3s ease, padding-left 0.3s ease;
+}
+
+.mobile-nav-link:hover {
+    color: #333;
+    text-decoration: none;
+    padding-left: 0.5rem;
+}
+
+/* ===== NAVBAR ANTIGA (MANTIDA PARA COMPATIBILIDADE) ===== */
+.navbar {
+    background-color: #1a1a1a;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+}
+
+.navbar .logo a {
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.navbar .menu ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.navbar .menu ul li a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.navbar .menu ul li a:hover {
+    color: #fff;
+}
+
+/* ===== CONTEÚDO PRINCIPAL ===== */
+/* Conteúdo principal ocupa espaço restante */
+main.conteudo {
+    flex: 1; /* ocupa o espaço disponível e empurra o footer */
+    margin-top: 0;
+}
+
+/* Padding opcional nos filhos */
+main.conteudo > * {
+    padding: 20px 0;
+}
+
+/* ===== COMPONENTES DE VINHO ===== */
+/* Card de vinho */
+.vinho {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 3px 3px 8px rgba(0,0,0,0.3);
+    padding: 10px;
+    text-align: center;
+    margin: 15px;
+    transition: transform 0.2s;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+}
+
+.vinho:hover {
+    transform: translateY(-5px);
+}
+
+.vinho img {
+    width: 150px;
+    height: auto;
+    display: block;
+    margin: 0 auto 10px auto;
+}
+
+/* ===== CARROSSEL ===== */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 40px;   /* tamanho do círculo */
+    height: 40px;
+    border-radius: 50%;
+    background-color: #333;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50% 50%; /* controla o tamanho da seta */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+}
+
+/* seta esquerda */
+.carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3Cpath%20d='M11%2014L5%208l6-6'%20stroke='%23fff'%20stroke-width='2'%20fill='none'/%3E%3C/svg%3E");
+}
+
+/* seta direita */
+.carousel-control-next-icon {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3Cpath%20d='M5%202l6%206-6%206'%20stroke='%23fff'%20stroke-width='2'%20fill='none'/%3E%3C/svg%3E");
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 60px;
+    height: 60px;
+    background: transparent !important; /* tira fundo preto */
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover,
+.carousel-control-prev:focus,
+.carousel-control-next:focus {
+    background: transparent !important; /* mantém transparente no hover */
+    box-shadow: none;
+}
+
+/* Wrapper e catálogo centralizado */
+.catalogo-wrapper,
+#vinhosCarousel {
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ===== FOOTER ===== */
+/* Footer fixo ao final, largura total */
+footer {
+    flex-shrink: 0;
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+/* ===== ESTILOS DO PERFIL/LOGIN ===== */
+
+/* Ajuste do conteúdo principal para página de perfil */
+main.conteudo.perfil-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9fafb;
+    padding: 20px;
+}
+
+/* Container do login */
+.login-container {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 3px 3px 8px rgba(0,0,0,0.3);
+    padding: 2rem;
+    width: 100%;
+    max-width: 400px;
+    transition: transform 0.2s;
+}
+
+.login-container:hover {
+    transform: translateY(-5px);
+}
+
+/* Header do login */
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login-header h1 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+}
+
+.login-header p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Grupos de formulário */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+/* Container dos inputs */
+.input-container {
+    position: relative;
+}
+
+.input-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #666;
+}
+
+/* Inputs do formulário */
+.form-input {
+    width: 100%;
+    padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s;
+    outline: none;
+    font-family: Arial, sans-serif;
+}
+
+.form-input:focus {
+    border-color: #1a1a1a;
+    box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.1);
+}
+
+/* Toggle de senha */
+.password-toggle {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    padding: 0.25rem;
+    transition: color 0.3s;
+}
+
+.password-toggle:hover {
+    color: #333;
+}
+
+/* Botão principal */
+.btn-primary {
+    width: 100%;
+    background-color: #1a1a1a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: Arial, sans-serif;
+}
+
+.btn-primary:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.btn-primary:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.5);
+}
+
+/* Link esqueceu senha */
+.forgot-password {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.forgot-password a {
+    color: #666;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: normal;
+    transition: color 0.3s;
+}
+
+.forgot-password a:hover {
+    color: #1a1a1a;
+    text-decoration: underline;
+}
+
+/* Divisor */
+.divider {
+    margin: 1.5rem 0 1rem 0;
+    position: relative;
+    text-align: center;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #ccc;
+}
+
+.divider span {
+    background-color: white;
+    padding: 0 1rem;
+    color: #666;
+    font-size: 0.875rem;
+}
+
+/* Botão Google */
+.btn-google {
+    width: 100%;
+    background-color: white;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: normal;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-family: Arial, sans-serif;
+}
+
+.btn-google:hover {
+    background-color: #f5f5f5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn-google:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.2);
+}
+
+.google-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* Classe auxiliar */
+.hidden {
+    display: none;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+
+/* Responsividade do Header */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+
+    .mobile-menu-toggle {
+        display: flex;
+    }
+
+    .mobile-menu.active {
+        display: block;
+    }
+
+    .header-content {
+        padding: 0.75rem 0;
+    }
+
+    .logo-text {
+        font-size: 1.1rem;
+    }
+
+    .logo-icon {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-content {
+        padding: 0.5rem 0;
+    }
+
+    .logo-text {
+        font-size: 1rem;
+    }
+
+    .logo-icon {
+        font-size: 1.2rem;
+        margin-right: 0.3rem;
+    }
+}
+
+/* Responsividade do Login */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 1.5rem;
+        margin: 10px;
+    }
+
+    .navbar {
+        padding: 10px 15px;
+    }
+
+    .navbar .menu ul {
+        gap: 15px;
+    }
+}
+
+/* ===== OVERRIDE DE BOOTSTRAP ===== */
+/* Override Bootstrap navbar se necessário */
+.navbar-bootstrap {
+    display: none !important;
+}
+
+/* ===== ANIMAÇÕES ===== */
+/* Animações suaves */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* ===== HERO SECTION ===== */
+.hero-section {
+    background-color: #f8f9fa;
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+/* ===== PRODUCTS SECTION ===== */
+.products-section {
+    padding: 4rem 0;
+    background-color: #fff;
+}
+
+/* ===== PRODUCT CARDS ===== */
+.product-card {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: left;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    border-color: #dc3545;
+}
+
+/* Product Image/Icon */
+.product-image {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 2rem;
+    height: 120px;
+}
+
+.wine-icon {
+    width: 80px;
+    height: 80px;
+    background-color: #333;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffc107;
+    font-size: 2rem;
+}
+
+/* Product Info */
+.product-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Rating */
+.product-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.stars {
+    display: flex;
+    gap: 2px;
+}
+
+.stars i {
+    color: #ffc107;
+    font-size: 0.9rem;
+}
+
+.stars i.far {
+    color: #e9ecef;
+}
+
+.rating-count {
+    color: #6c757d;
+    font-size: 0.875rem;
+    font-weight: 400;
+}
+
+/* Product Title */
+.product-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+/* Product Price */
+.product-price {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #dc3545;
+    margin-bottom: 1rem;
+}
+
+/* Product Description */
+.product-description {
+    color: #6c757d;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+    flex-grow: 1;
+}
+
+/* Product Button */
+.btn-product {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    margin-top: auto;
+}
+
+.btn-product:hover {
+    background-color: #dc3545;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-product:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.25);
+}
+
+.btn-product i {
+    font-size: 0.875rem;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+
+/* Tablets */
+@media (max-width: 991.98px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .product-card {
+        padding: 1.5rem;
+    }
+
+    .wine-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8rem;
+    }
+}
+
+/* Mobile */
+@media (max-width: 767.98px) {
+    .hero-section {
+        padding: 3rem 0;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .products-section {
+        padding: 3rem 0;
+    }
+
+    .product-card {
+        padding: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .product-image {
+        height: 100px;
+        margin-bottom: 1.5rem;
+    }
+
+    .wine-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+
+    .product-title {
+        font-size: 1.125rem;
+    }
+
+    .product-price {
+        font-size: 1rem;
+    }
+
+    .product-description {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .btn-product {
+        padding: 0.625rem 1.25rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Mobile pequeno */
+@media (max-width: 575.98px) {
+    .hero-section {
+        padding: 2rem 0;
+    }
+
+    .hero-title {
+        font-size: 1.75rem;
+    }
+
+    .products-section {
+        padding: 2rem 0;
+    }
+
+    .product-card {
+        padding: 1rem;
+    }
+
+    .product-image {
+        height: 80px;
+        margin-bottom: 1rem;
+    }
+
+    .wine-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+    }
+}
+
+/* ===== AJUSTES DE LAYOUT ===== */
+
+/* Equaliza altura dos cards */
+.row [class*="col-"] {
+    display: flex;
+    margin-bottom: 2rem;
+}
+
+.product-card {
+    width: 100%;
+}
+
+/* Espaçamento consistente */
+.products-section .container {
+    max-width: 1200px;
+}
+
+/* Hover effects mais suaves em telas touch */
+@media (hover: none) and (pointer: coarse) {
+    .product-card:hover {
+        transform: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .btn-product:hover {
+        transform: none;
+        box-shadow: none;
+    }
+}
