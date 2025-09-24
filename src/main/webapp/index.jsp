@@ -220,11 +220,10 @@
                             <span class="rating-count">(94 avaliações)</span>
                         </div>
 
-                        <h3 class="product-title">Vinho Cabernet Premium</h3>
-                        <p class="product-price">R$ 129,90</p>
+                        <h3 class="product-title">Chambolle-musigny Vieilles Vignes</h3>
+                        <p class="product-price">R$ 529,90</p>
                         <p class="product-description">
-                            Cabernet Sauvignon premium com 3 anos de envelhecimento.
-                            Complexidade aromática e sabor inesquecível.
+                            Assinado por Dominique Laurent, este Bourgogne é elaborado a partir de vinhas velhas de Chambolle Musigny. Elegante e equilibrado revela grande aporte de frutas vermelhas maduras e toques de café.
                         </p>
                         <button class="btn-product">
                             <i class="fas fa-shopping-cart"></i>

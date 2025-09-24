@@ -8,6 +8,8 @@
     <!-- CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+        <!-- Favicon - Logo na aba do navegador -->
+        <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/img/logo.png">
     <style>
         /* Força o body a ocupar toda a tela para centralização */
         body {

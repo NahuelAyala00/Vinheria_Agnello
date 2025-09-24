@@ -1,0 +1,210 @@
+/* ---------- FOOTER LAYOUT FIX ---------- */
+.footer-custom {
+  background: linear-gradient(135deg, #2c2c2c 0%, #1f1f1f 100%);
+  color: #fff;
+  padding: 3rem 0 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Container principal */
+.footer-custom .container.footer-grid {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Conteúdo do footer em flex */
+.footer-content {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Coluna esquerda */
+.footer-left {
+  flex: 1 1 55%;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Coluna direita */
+.footer-right {
+  flex: 0 0 420px;
+  max-width: 45%;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Títulos - ALINHADOS À ESQUERDA */
+.footer-title {
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: left; /* Garante alinhamento à esquerda */
+  width: 100%;
+}
+
+/* Contato - ALINHADO À ESQUERDA */
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  align-items: flex-start; /* Alinha à esquerda */
+  text-align: left;
+}
+
+.contact-item {
+  color: #d1d5db;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: flex-start; /* Alinha conteúdo à esquerda */
+  width: 100%;
+}
+
+.contact-icon {
+  width: 16px;
+  text-align: center;
+}
+
+/* Social media - ALINHADO À ESQUERDA */
+.social-media {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-start; /* Alinha ícones à esquerda */
+  width: 100%;
+}
+
+.social-link {
+  width: 40px;
+  height: 40px;
+  background-color: #404040;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #d1d5db;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.social-link:hover {
+  background-color: #555;
+  transform: translateY(-2px);
+}
+
+/* Coração - ALINHADO À ESQUERDA */
+.footer-love {
+  margin-top: 0.75rem;
+  text-align: left; /* Alinha à esquerda */
+  width: 100%;
+}
+
+.footer-love i {
+  color: #dc3545;
+  font-size: 1.25rem;
+}
+
+/* Mapa */
+.footer-map {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+}
+
+.footer-map iframe {
+  width: 100%;
+  height: 260px;
+  border: 0;
+  display: block;
+}
+
+/* Copyright */
+.footer-bottom {
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
+}
+
+.footer-bottom p {
+  color: #9ca3af;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* ----------------- RESPONSIVIDADE ----------------- */
+@media (max-width: 991.98px) {
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-right {
+    max-width: 100%;
+    width: 100%;
+    margin-top: 1rem;
+    align-items: center;
+  }
+
+  /* EM MOBILE: Centraliza o conteúdo */
+  .footer-left {
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-title {
+    text-align: center; /* Centraliza títulos em mobile */
+  }
+
+  .footer-contact {
+    align-items: center;
+  }
+
+  .contact-item {
+    justify-content: center;
+  }
+
+  .social-media {
+    justify-content: center; /* Centraliza ícones em mobile */
+  }
+
+  .footer-love {
+    text-align: center; /* Centraliza coração em mobile */
+  }
+
+  .footer-map iframe {
+    height: 220px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .footer-custom {
+    padding: 2rem 0 1rem;
+  }
+
+  .footer-map iframe {
+    height: 180px;
+  }
+
+  .social-link {
+    width: 36px;
+    height: 36px;
+  }
+
+  .footer-content {
+    gap: 1.5rem;
+  }
+}

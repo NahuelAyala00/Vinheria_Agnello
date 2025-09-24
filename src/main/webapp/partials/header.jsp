@@ -1,13 +1,18 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vinheria Agnello</title>
+
+    <!-- Favicon - Logo na aba do navegador -->
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/img/logo.png">
+
     <!-- CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+
     <!-- Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -23,7 +28,7 @@
                     <span class="logo-text">Vinheria Agnello</span>
                 </a>
             </div>
-            
+
             <!-- Menu Desktop -->
             <nav class="nav-menu">
                 <ul class="nav-list">
@@ -38,7 +43,7 @@
                     </li>
                 </ul>
             </nav>
-            
+
             <!-- Menu Mobile Toggle -->
             <button class="mobile-menu-toggle" type="button" onclick="toggleMobileMenu()">
                 <span class="hamburger-line"></span>
@@ -46,7 +51,7 @@
                 <span class="hamburger-line"></span>
             </button>
         </div>
-        
+
         <!-- Menu Mobile -->
         <nav class="mobile-menu" id="mobileMenu">
             <ul class="mobile-nav-list">
@@ -65,6 +70,7 @@
 </header>
 
 <main class="conteudo">
+
 <!-- Scripts JS do Bootstrap -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/main.js"></script>
