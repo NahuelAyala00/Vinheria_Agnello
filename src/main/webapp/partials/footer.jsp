@@ -56,7 +56,7 @@
                 <h4 class="footer-title">Localização</h4>
                 <div class="footer-map">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d234226.6453517081!2d-46.995898626878486!3d-23.46799018395669!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce597abf1a28ff%3A0x1b02a58f85e6395e!2zRklBUCAtIEFjbGltYcOnw6Nv!5e0!3m2!1spt-BR!2sbr!4v1758666276039!5m2!1spt-BR!2sbr"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.8436844371417!2d-46.625742324751755!3d-23.574056962058588!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce597abf1a28ff%3A0x1b02a58f85e6395e!2zRklBUCAtIEFjbGltYcOnw6Nv!5e0!3m2!1spt-BR!2sbr!4v1758942151135!5m2!1spt-BR!2sbr"
                         loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade"
                         title="Mapa - Vinheria">
