@@ -57,7 +57,7 @@ async function carregarVinhos() {
             div.innerHTML = `
                 <div class="product-card">
                     <div class="product-image text-center mb-3">
-                        <img src="assets/img/${imagemNome}" class="img-fluid" style="max-width:120px;" alt="${vinho.nome}" onerror="this.src='assets/img/default-wine.png'">
+                        <img src="img/${imagemNome}" class="img-fluid" style="max-width:120px;" alt="${vinho.nome}" onerror="this.src='img/default-wine.png'">
                     </div>
                     <div class="product-info">
                         <div class="product-rating mb-2">

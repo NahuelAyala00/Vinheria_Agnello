@@ -31,4 +31,4 @@
     </div>
 </section>
 
-<script src="${pageContext.request.contextPath}/assets/js/body.js"></script>
+<script src="${pageContext.request.contextPath}/js/body.js"></script>
