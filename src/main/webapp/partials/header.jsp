@@ -73,7 +73,6 @@
 
 <!-- Scripts JS do Bootstrap -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/main.js"></script>
 
 <script>
 function toggleMobileMenu() {

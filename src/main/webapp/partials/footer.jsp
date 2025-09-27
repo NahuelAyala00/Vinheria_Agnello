@@ -4,6 +4,7 @@
 
 <!-- CSS do footer -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style-footer.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 
 <!-- Footer -->
 <footer class="footer-custom">

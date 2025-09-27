@@ -927,3 +927,44 @@ main.conteudo.perfil-page {
         box-shadow: none;
     }
 }
+
+.wine-info {
+    font-size: 0.85rem;
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+.product-card {
+    transition: transform 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-product {
+    margin-top: auto;
+}
+
+/* Loading animation */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+#loading {
+    animation: pulse 2s infinite;
+}
