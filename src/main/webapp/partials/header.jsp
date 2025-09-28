@@ -39,7 +39,7 @@
                         <a href="${pageContext.request.contextPath}/pages/carrinho.jsp" class="nav-link">Carrinho</a>
                     </li>
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/pages/perfil.jsp" class="nav-link">Perfil</a>
+                        <a href="${pageContext.request.contextPath}/pages/login.jsp" class="nav-link">Login</a>
                     </li>
                 </ul>
             </nav>
@@ -62,7 +62,7 @@
                     <a href="${pageContext.request.contextPath}/pages/carrinho.jsp" class="mobile-nav-link">Carrinho</a>
                 </li>
                 <li class="mobile-nav-item">
-                    <a href="${pageContext.request.contextPath}/pages/perfil.jsp" class="mobile-nav-link">Perfil</a>
+                    <a href="${pageContext.request.contextPath}/pages/login.jsp" class="mobile-nav-link">Login</a>
                 </li>
             </ul>
         </nav>
