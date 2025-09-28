@@ -159,6 +159,32 @@
         .strength-medium { background-color: #ffaa00; }
         .strength-strong { background-color: #00aa00; }
 
+        .alert {
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
+        .alert-info {
+            color: #0c5460;
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+        }
+
         @media (max-width: 480px) {
             .auth-container { padding: 1.5rem; max-width: 350px; }
             body { padding: 10px; }
@@ -172,6 +198,9 @@
             <h1 id="authTitle">Entrar</h1>
             <p id="authSubtitle">Entre na sua conta para continuar</p>
         </div>
+
+        <!-- Alert container -->
+        <div id="alertContainer"></div>
 
         <!-- Tabs -->
         <div class="auth-tabs">
@@ -217,7 +246,7 @@
                     <svg class="auth-input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                     </svg>
-                    <input type="text" id="registerName" name="name" class="auth-form-input" placeholder="Seu nome completo" required>
+                    <input type="text" id="registerName" name="name" class="auth-form-input" placeholder="Seu nome completo" required minlength="2">
                 </div>
             </div>
 
@@ -237,7 +266,7 @@
                     <svg class="auth-input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                     </svg>
-                    <input type="password" id="registerPassword" name="password" class="auth-form-input" placeholder="••••••••" required oninput="checkPasswordStrength(this.value)">
+                    <input type="password" id="registerPassword" name="password" class="auth-form-input" placeholder="••••••••" required minlength="8" oninput="checkPasswordStrength(this.value)">
                     <button type="button" class="auth-password-toggle" onclick="togglePassword('registerPassword')">👁️</button>
                 </div>
                 <div class="password-strength">
@@ -254,7 +283,7 @@
                     <svg class="auth-input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                     </svg>
-                    <input type="password" id="confirmPassword" name="confirmPassword" class="auth-form-input" placeholder="••••••••" required>
+                    <input type="password" id="confirmPassword" name="confirmPassword" class="auth-form-input" placeholder="••••••••" required minlength="8">
                     <button type="button" class="auth-password-toggle" onclick="togglePassword('confirmPassword')">👁️</button>
                 </div>
             </div>
@@ -288,8 +317,35 @@
 
     <!-- JavaScript -->
     <script>
+        // **CONFIGURAÇÃO FIXA DA API** - ALTERE AQUI PARA SUA URL
+        const FASTAPI_URL = 'http://localhost:8000';
+
+        // Utilitários
+        function showAlert(message, type = 'info') {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+
+            // Remove alertas anteriores
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alertDiv);
+
+            // Remove o alerta após 5 segundos
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.parentNode.removeChild(alertDiv);
+                }
+            }, 5000);
+        }
+
+        function clearAlerts() {
+            document.getElementById('alertContainer').innerHTML = '';
+        }
+
         // Função para alternar entre abas
         function switchTab(tab) {
+            clearAlerts();
             const tabs = document.querySelectorAll('.auth-tab');
             const forms = document.querySelectorAll('.auth-form');
             const title = document.getElementById('authTitle');
@@ -363,45 +419,69 @@
         // Função para lidar com login tradicional
         async function handleLogin(event) {
             event.preventDefault();
+            clearAlerts();
+
             const formData = new FormData(event.target);
             const submitButton = event.target.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
 
             // Desabilita o botão durante a requisição
             submitButton.disabled = true;
             submitButton.textContent = 'Entrando...';
 
             try {
-                const response = await fetch('/usuarios/login', {
+                const requestData = {
+                    email: formData.get('email'),
+                    senha: formData.get('password')
+                };
+
+                console.log('Fazendo login para:', FASTAPI_URL + '/usuarios/login');
+                console.log('Dados de login:', { email: requestData.email, senha: '[OCULTA]' });
+
+                const response = await fetch(FASTAPI_URL + '/usuarios/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
-                    body: JSON.stringify({
-                        email: formData.get('email'),
-                        senha: formData.get('password')
-                    })
+                    body: JSON.stringify(requestData)
                 });
 
-                const data = await response.json();
+                console.log('Status da resposta login:', response.status);
 
                 if (response.ok) {
-                    // Login bem-sucedido - salva token JWT
-                    localStorage.setItem('access_token', data.access_token);
-                    localStorage.setItem('usuario_id', data.usuario_id);
-                    alert('Login realizado com sucesso!');
-                    // Redirecionar para dashboard ou página principal
-                    window.location.href = '/dashboard'; // Ajuste conforme necessário
+                    const data = await response.json();
+                    console.log('Login bem-sucedido:', data);
+
+                    // Salva dados na sessão
+                    sessionStorage.setItem('access_token', data.access_token);
+                    sessionStorage.setItem('usuario_id', data.usuario_id.toString());
+                    sessionStorage.setItem('user_email', requestData.email);
+
+                    showAlert('Login realizado com sucesso! Redirecionando...', 'success');
+
+                    // Redirecionar após 1 segundo
+                    setTimeout(() => {
+                        window.location.href = '${pageContext.request.contextPath}/dashboard.jsp';
+                    }, 1000);
                 } else {
-                    // Erro no login
-                    alert(data.detail || 'Erro ao fazer login');
+                    const errorData = await response.json();
+                    const errorMessage = errorData.detail || 'Erro ao fazer login';
+                    showAlert(errorMessage, 'danger');
+                    console.error('Erro no login:', errorData);
                 }
             } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro de conexão com o servidor. Verifique se sua API está rodando.');
+                console.error('Erro completo no login:', error);
+
+                if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                    showAlert('Erro de conexão: Verifique se a API FastAPI está rodando em ' + FASTAPI_URL, 'danger');
+                } else {
+                    showAlert('Erro: ' + error.message, 'danger');
+                }
             } finally {
                 // Reabilita o botão
                 submitButton.disabled = false;
-                submitButton.textContent = 'Entrar';
+                submitButton.textContent = originalText;
             }
 
             return false;
@@ -410,19 +490,22 @@
         // Função para lidar com registro
         async function handleRegister(event) {
             event.preventDefault();
+            clearAlerts();
+
             const formData = new FormData(event.target);
             const password = formData.get('password');
             const confirmPassword = formData.get('confirmPassword');
             const submitButton = event.target.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
 
             // Validação de senhas
             if (password !== confirmPassword) {
-                alert('As senhas não coincidem!');
+                showAlert('As senhas não coincidem!', 'danger');
                 return false;
             }
 
             if (password.length < 8) {
-                alert('A senha deve ter pelo menos 8 caracteres!');
+                showAlert('A senha deve ter pelo menos 8 caracteres!', 'danger');
                 return false;
             }
 
@@ -431,40 +514,61 @@
             submitButton.textContent = 'Criando...';
 
             try {
-                const response = await fetch('/usuarios/', {
+                const requestData = {
+                    nome: formData.get('name'),
+                    email: formData.get('email'),
+                    senha: formData.get('password')
+                };
+
+                console.log('Criando usuário em:', FASTAPI_URL + '/usuarios/');
+                console.log('Dados enviados:', requestData);
+
+                const response = await fetch(FASTAPI_URL + '/usuarios/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
-                    body: JSON.stringify({
-                        nome: formData.get('name'),
-                        email: formData.get('email'),
-                        senha: formData.get('password')
-                    })
+                    body: JSON.stringify(requestData)
                 });
 
-                const data = await response.json();
+                console.log('Status do registro:', response.status);
 
                 if (response.ok) {
-                    // Registro bem-sucedido
-                    alert('Conta criada com sucesso! Faça login para continuar.');
-                    // Muda para aba de login
-                    switchTab('login');
+                    const data = await response.json();
+                    console.log('Registro bem-sucedido:', data);
+
+                    showAlert('Conta criada com sucesso! Faça login para continuar.', 'success');
+
+                    // Muda para aba de login após 2 segundos
+                    setTimeout(() => {
+                        switchTab('login');
+                        // Preenche o email no form de login
+                        document.getElementById('loginEmail').value = requestData.email;
+                    }, 2000);
+
                     // Limpa o formulário
                     event.target.reset();
                     document.getElementById('passwordStrengthFill').style.width = '0%';
                     document.getElementById('passwordStrengthText').textContent = 'Digite uma senha';
                 } else {
-                    // Erro no registro
-                    alert(data.detail || 'Erro ao criar conta');
+                    const errorData = await response.json();
+                    const errorMessage = errorData.detail || 'Erro ao criar conta';
+                    showAlert(errorMessage, 'danger');
+                    console.error('Erro no registro:', errorData);
                 }
             } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro de conexão com o servidor. Verifique se sua API está rodando.');
+                console.error('Erro completo no registro:', error);
+
+                if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                    showAlert('Erro de conexão: Verifique se a API FastAPI está rodando em ' + FASTAPI_URL, 'danger');
+                } else {
+                    showAlert('Erro: ' + error.message, 'danger');
+                }
             } finally {
                 // Reabilita o botão
                 submitButton.disabled = false;
-                submitButton.textContent = 'Criar Conta';
+                submitButton.textContent = originalText;
             }
 
             return false;
@@ -473,59 +577,131 @@
         // Função para lidar com Google Sign-In
         async function handleGoogleSignIn(response) {
             console.log('Google Sign-In iniciado:', response);
+            clearAlerts();
+            showAlert('Processando login com Google...', 'info');
 
             try {
-                const result = await fetch('/usuarios/login/google', {
+                const result = await fetch(FASTAPI_URL + '/usuarios/login/google', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
                     body: JSON.stringify({
                         credential: response.credential
                     })
                 });
 
-                const data = await result.json();
+                console.log('Google login status:', result.status);
 
                 if (result.ok) {
-                    // Login com Google bem-sucedido
-                    localStorage.setItem('access_token', data.access_token);
-                    localStorage.setItem('usuario_id', data.usuario_id);
-                    alert('Login com Google realizado com sucesso!');
-                    // Redirecionar para dashboard ou página principal
-                    window.location.href = '/dashboard'; // Ajuste conforme necessário
+                    const data = await result.json();
+                    console.log('Google login bem-sucedido:', data);
+
+                    sessionStorage.setItem('access_token', data.access_token);
+                    sessionStorage.setItem('usuario_id', data.usuario_id.toString());
+
+                    showAlert('Login com Google realizado com sucesso! Redirecionando...', 'success');
+
+                    // Redirecionar após 1 segundo
+                    setTimeout(() => {
+                        window.location.href = '${pageContext.request.contextPath}/dashboard.jsp';
+                    }, 1000);
                 } else {
-                    console.error('Erro no backend:', data);
-                    alert(data.detail || 'Erro ao fazer login com Google');
+                    const errorData = await result.json();
+                    const errorMessage = errorData.detail || 'Erro ao fazer login com Google';
+                    showAlert(errorMessage, 'danger');
+                    console.error('Erro no Google login:', errorData);
                 }
             } catch (error) {
                 console.error('Erro no Google Sign-In:', error);
-                alert('Erro de conexão com o servidor. Verifique se sua API está rodando.');
+                showAlert('Erro de conexão com Google: ' + error.message, 'danger');
             }
         }
 
         // Função para esqueceu senha
         function forgotPassword() {
-            alert('Funcionalidade de recuperação de senha será implementada em breve!');
+            showAlert('Funcionalidade de recuperação de senha será implementada em breve!', 'info');
+        }
+
+        // Função para verificar se usuário já está logado
+        function checkAuthStatus() {
+            const token = sessionStorage.getItem('access_token');
+            const userId = sessionStorage.getItem('usuario_id');
+
+            if (token && userId) {
+                console.log('Usuário já está logado, redirecionando...');
+                window.location.href = '${pageContext.request.contextPath}/dashboard.jsp';
+            }
+        }
+
+        // Função para testar conectividade com a API
+        async function testApiConnection() {
+            try {
+                console.log('Testando conexão com API em:', FASTAPI_URL);
+
+                const response = await fetch(FASTAPI_URL + '/usuarios/', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.status === 200 || response.status === 422) {
+                    console.log('API está acessível!');
+                    showAlert('Conectado com sucesso à API!', 'success');
+                } else {
+                    console.warn('API retornou status:', response.status);
+                }
+            } catch (error) {
+                console.error('Não foi possível conectar com a API:', error.message);
+                showAlert('AVISO: Não foi possível conectar com a API em ' + FASTAPI_URL + '. Verifique se o servidor FastAPI está rodando.', 'danger');
+            }
         }
 
         // Inicialização
         window.onload = function() {
-            console.log('✅ Página carregada com Google OAuth configurado');
-            console.log('🔧 Client ID: 210589865475-o09jvfs1i2o8hrfqhq2mstbn7pdc280r.apps.googleusercontent.com');
+            console.log('Página carregada');
+            console.log('API configurada para:', FASTAPI_URL);
+            console.log('Client ID Google:', '210589865475-o09jvfs1i2o8hrfqhq2mstbn7pdc280r.apps.googleusercontent.com');
+            console.log('Origem atual:', window.location.origin);
+
+            // Verifica se usuário já está logado
+            checkAuthStatus();
 
             // Verificar se a biblioteca do Google foi carregada
             setTimeout(() => {
                 if (typeof google !== 'undefined') {
-                    console.log('✅ Google Sign-In library carregada!');
+                    console.log('Google Sign-In library carregada!');
                 } else {
-                    console.warn('⚠️ Google Sign-In library não carregou. Verifique a conexão.');
+                    console.warn('Google Sign-In library não carregou. Verifique a conexão.');
                 }
             }, 2000);
+
+            // Testa conectividade com a API
+            setTimeout(() => {
+                testApiConnection();
+            }, 1000);
         };
+
+        // Adiciona event listener para tecla Enter nos formulários
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('.auth-form');
+            forms.forEach(form => {
+                form.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && e.target.type !== 'submit') {
+                        e.preventDefault();
+                        const submitBtn = form.querySelector('button[type="submit"]');
+                        if (submitBtn && !submitBtn.disabled) {
+                            submitBtn.click();
+                        }
+                    }
+                });
+            });
+        });
     </script>
 
-    <!-- JS externo (mantém compatibilidade) -->
+    <!-- JS externo (mantém compatibilidade se existir) -->
     <script src="${pageContext.request.contextPath}/js/login.js"></script>
 </body>
 </html>
