@@ -331,12 +331,12 @@
             alertContainer.innerHTML = '';
             alertContainer.appendChild(alertDiv);
 
-            // Remove o alerta após 5 segundos
+            // Remove o alerta após 8 segundos (aumentado para dar tempo de ler)
             setTimeout(() => {
                 if (alertDiv.parentNode) {
                     alertDiv.parentNode.removeChild(alertDiv);
                 }
-            }, 5000);
+            }, 8000);
         }
 
         function clearAlerts() {
@@ -416,6 +416,38 @@
             }
         }
 
+        // FUNÇÃO DE LOGOUT - NÃO PRECISA DE BACKEND
+        function logout() {
+            console.log('Fazendo logout...');
+
+            // Limpa todos os dados da sessão
+            sessionStorage.removeItem('access_token');
+            sessionStorage.removeItem('usuario_id');
+            sessionStorage.removeItem('user_email');
+
+            // Limpa localStorage também (caso tenha algo)
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('usuario_id');
+            localStorage.removeItem('user_email');
+
+            // Revoga o Google Sign-In se existir
+            if (typeof google !== 'undefined' && google.accounts) {
+                google.accounts.id.disableAutoSelect();
+            }
+
+            showAlert('Logout realizado com sucesso!', 'success');
+
+            console.log('Usuário deslogado com sucesso');
+
+            // Redireciona para login após 2 segundos
+            setTimeout(() => {
+                window.location.href = '${pageContext.request.contextPath}/login.jsp';
+            }, 2000);
+        }
+
+        // Função global para usar em outras páginas
+        window.logout = logout;
+
         // Função para lidar com login tradicional
         async function handleLogin(event) {
             event.preventDefault();
@@ -458,25 +490,25 @@
                     sessionStorage.setItem('usuario_id', data.usuario_id.toString());
                     sessionStorage.setItem('user_email', requestData.email);
 
-                    showAlert('Login realizado com sucesso! Redirecionando...', 'success');
+                    showAlert('✅ Login realizado com sucesso! Redirecionando para a página principal...', 'success');
 
-                    // Redirecionar após 1 segundo
+                    // Redirecionar após 3 segundos (aumentado para dar tempo de ler)
                     setTimeout(() => {
-                        window.location.href = '${pageContext.request.contextPath}/dashboard.jsp';
-                    }, 1000);
+                        window.location.href = '${pageContext.request.contextPath}/index.jsp';
+                    }, 3000);
                 } else {
                     const errorData = await response.json();
                     const errorMessage = errorData.detail || 'Erro ao fazer login';
-                    showAlert(errorMessage, 'danger');
+                    showAlert('❌ ' + errorMessage, 'danger');
                     console.error('Erro no login:', errorData);
                 }
             } catch (error) {
                 console.error('Erro completo no login:', error);
 
                 if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-                    showAlert('Erro de conexão: Verifique se a API FastAPI está rodando em ' + FASTAPI_URL, 'danger');
+                    showAlert('❌ Erro de conexão: Verifique se a API FastAPI está rodando em ' + FASTAPI_URL, 'danger');
                 } else {
-                    showAlert('Erro: ' + error.message, 'danger');
+                    showAlert('❌ Erro: ' + error.message, 'danger');
                 }
             } finally {
                 // Reabilita o botão
@@ -500,12 +532,12 @@
 
             // Validação de senhas
             if (password !== confirmPassword) {
-                showAlert('As senhas não coincidem!', 'danger');
+                showAlert('❌ As senhas não coincidem!', 'danger');
                 return false;
             }
 
             if (password.length < 8) {
-                showAlert('A senha deve ter pelo menos 8 caracteres!', 'danger');
+                showAlert('❌ A senha deve ter pelo menos 8 caracteres!', 'danger');
                 return false;
             }
 
@@ -538,14 +570,14 @@
                     const data = await response.json();
                     console.log('Registro bem-sucedido:', data);
 
-                    showAlert('Conta criada com sucesso! Faça login para continuar.', 'success');
+                    showAlert('✅ Conta criada com sucesso! Faça login para continuar.', 'success');
 
-                    // Muda para aba de login após 2 segundos
+                    // Muda para aba de login após 3 segundos (aumentado)
                     setTimeout(() => {
                         switchTab('login');
                         // Preenche o email no form de login
                         document.getElementById('loginEmail').value = requestData.email;
-                    }, 2000);
+                    }, 3000);
 
                     // Limpa o formulário
                     event.target.reset();
@@ -554,16 +586,16 @@
                 } else {
                     const errorData = await response.json();
                     const errorMessage = errorData.detail || 'Erro ao criar conta';
-                    showAlert(errorMessage, 'danger');
+                    showAlert('❌ ' + errorMessage, 'danger');
                     console.error('Erro no registro:', errorData);
                 }
             } catch (error) {
                 console.error('Erro completo no registro:', error);
 
                 if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-                    showAlert('Erro de conexão: Verifique se a API FastAPI está rodando em ' + FASTAPI_URL, 'danger');
+                    showAlert('❌ Erro de conexão: Verifique se a API FastAPI está rodando em ' + FASTAPI_URL, 'danger');
                 } else {
-                    showAlert('Erro: ' + error.message, 'danger');
+                    showAlert('❌ Erro: ' + error.message, 'danger');
                 }
             } finally {
                 // Reabilita o botão
@@ -578,7 +610,7 @@
         async function handleGoogleSignIn(response) {
             console.log('Google Sign-In iniciado:', response);
             clearAlerts();
-            showAlert('Processando login com Google...', 'info');
+            showAlert('⏳ Processando login com Google...', 'info');
 
             try {
                 const result = await fetch(FASTAPI_URL + '/usuarios/login/google', {
@@ -601,27 +633,27 @@
                     sessionStorage.setItem('access_token', data.access_token);
                     sessionStorage.setItem('usuario_id', data.usuario_id.toString());
 
-                    showAlert('Login com Google realizado com sucesso! Redirecionando...', 'success');
+                    showAlert('✅ Login com Google realizado com sucesso! Redirecionando para a página principal...', 'success');
 
-                    // Redirecionar após 1 segundo
+                    // Redirecionar após 3 segundos (aumentado)
                     setTimeout(() => {
-                        window.location.href = '${pageContext.request.contextPath}/dashboard.jsp';
-                    }, 1000);
+                        window.location.href = '${pageContext.request.contextPath}/index.jsp';
+                    }, 3000);
                 } else {
                     const errorData = await result.json();
                     const errorMessage = errorData.detail || 'Erro ao fazer login com Google';
-                    showAlert(errorMessage, 'danger');
+                    showAlert('❌ ' + errorMessage, 'danger');
                     console.error('Erro no Google login:', errorData);
                 }
             } catch (error) {
                 console.error('Erro no Google Sign-In:', error);
-                showAlert('Erro de conexão com Google: ' + error.message, 'danger');
+                showAlert('❌ Erro de conexão com Google: ' + error.message, 'danger');
             }
         }
 
         // Função para esqueceu senha
         function forgotPassword() {
-            showAlert('Funcionalidade de recuperação de senha será implementada em breve!', 'info');
+            showAlert('ℹ️ Funcionalidade de recuperação de senha será implementada em breve!', 'info');
         }
 
         // Função para verificar se usuário já está logado
@@ -630,8 +662,12 @@
             const userId = sessionStorage.getItem('usuario_id');
 
             if (token && userId) {
-                console.log('Usuário já está logado, redirecionando...');
-                window.location.href = '${pageContext.request.contextPath}/dashboard.jsp';
+                console.log('Usuário já está logado, redirecionando para página principal...');
+                showAlert('✅ Usuário já logado! Redirecionando...', 'success');
+
+                setTimeout(() => {
+                    window.location.href = '${pageContext.request.contextPath}/index.jsp';
+                }, 2000);
             }
         }
 
@@ -649,13 +685,25 @@
 
                 if (response.status === 200 || response.status === 422) {
                     console.log('API está acessível!');
-                    showAlert('Conectado com sucesso à API!', 'success');
+                    showAlert('✅ Conectado com sucesso à API!', 'success');
                 } else {
                     console.warn('API retornou status:', response.status);
+                    showAlert('⚠️ API respondeu com status: ' + response.status, 'info');
                 }
             } catch (error) {
                 console.error('Não foi possível conectar com a API:', error.message);
-                showAlert('AVISO: Não foi possível conectar com a API em ' + FASTAPI_URL + '. Verifique se o servidor FastAPI está rodando.', 'danger');
+                showAlert('❌ AVISO: Não foi possível conectar com a API em ' + FASTAPI_URL + '. Verifique se o servidor FastAPI está rodando.', 'danger');
+            }
+        }
+
+        // Função para verificar se existe logout pendente
+        function checkLogoutStatus() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('logout') === 'success') {
+                showAlert('✅ Logout realizado com sucesso!', 'success');
+                // Remove o parâmetro da URL
+                const newUrl = window.location.pathname;
+                window.history.replaceState({}, document.title, newUrl);
             }
         }
 
@@ -665,6 +713,9 @@
             console.log('API configurada para:', FASTAPI_URL);
             console.log('Client ID Google:', '210589865475-o09jvfs1i2o8hrfqhq2mstbn7pdc280r.apps.googleusercontent.com');
             console.log('Origem atual:', window.location.origin);
+
+            // Verifica se houve logout
+            checkLogoutStatus();
 
             // Verifica se usuário já está logado
             checkAuthStatus();
@@ -678,10 +729,10 @@
                 }
             }, 2000);
 
-            // Testa conectividade com a API
+            // Testa conectividade com a API após 1.5 segundos
             setTimeout(() => {
                 testApiConnection();
-            }, 1000);
+            }, 1500);
         };
 
         // Adiciona event listener para tecla Enter nos formulários
